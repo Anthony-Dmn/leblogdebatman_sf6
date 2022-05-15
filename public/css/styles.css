@@ -1,0 +1,60 @@
+/* Police */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+/* body */
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: #1A1D45;
+    color: #F5F7F9;
+}
+
+/* Menu principal */
+.main-navbar .main-navbar-logo{
+    width: 55px;
+    margin-right: 16px;
+}
+
+
+/* Page d'accueil */
+.batman-cover{
+    background-image: url('../images/batman-cover.png');
+    background-attachment: fixed;
+    background-size: cover;
+    height: 400px;
+}
+
+
+/* Menus paginations */
+.pagination .page-item .page-link{
+    background-color: black;
+    color: #F5F7F9;
+}
+
+.pagination .page-item.disabled{
+    cursor: not-allowed;
+}
+
+.pagination .page-item.disabled .page-link, .pagination .page-item.active .page-link{
+    color: grey;
+}
+
+.pagination .page-item a.page-link:hover{
+    background-color: #292929;
+}
+
+
+/* Affichage des images de profil dans les commentaires */
+.comment-profil-photo{
+    width: 100px;
+    height: 100px;
+}
+
+
+/* Position du bouton suppression d'un commentaire */
+.admin-button-article{
+    position: absolute;
+    top: 14px;
+    right: 0;
+    display: inline-block;
+    width: auto;
+}

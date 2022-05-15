@@ -1,0 +1,61 @@
+{# Utilisation du squelette de page base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{# Titre de la page #}
+{% block title %}Créer un compte{% endblock %}
+
+{# Contenu de la page #}
+{% block body %}
+
+    <div class="container-fluid">
+
+        {# Titre h1 #}
+        <div class="row">
+            <h1 class="col-12 text-center my-5">Créer un compte</h1>
+        </div>
+
+        {# Formulaire d'inscription #}
+        <div class="row">
+            <div class="col-12 col-md-4 offset-md-4">
+
+                {# Ouverture du formulaire #}
+                {{ form_start( registrationForm ) }}
+
+                {# Affichage des erreurs générales du formulaire #}
+                {{ form_errors( registrationForm ) }}
+
+                {# Champ email #}
+                {{ form_row(registrationForm.email) }}
+
+                {# Champ mot de passe #}
+                {{ form_row(registrationForm.plainPassword) }}
+
+                {# Champ pseudonyme #}
+                {{ form_row(registrationForm.pseudonym) }}
+
+                {# Affichage du recaptcha #}
+                <div class="mb-3">
+                    <div class="mb-2">Captcha de sécurité</div>
+
+                    {# La clé publique est récupérée en paramètre dans le fichier config/packages/twig.yaml #}
+                    <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
+                </div>
+
+                {# Bouton de validation #}
+                {{ form_row( registrationForm.save ) }}
+
+                {# Fermeture du formulaire #}
+                {{ form_end( registrationForm ) }}
+
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block css %}
+    {# Fichier JS nécessaire pour faire fonctionner le recaptcha de Google #}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}

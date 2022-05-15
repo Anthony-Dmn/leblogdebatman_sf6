@@ -1,0 +1,120 @@
+{# Utilisation du squelette de page base.html.twig #}
+{% extends 'base.html.twig' %}
+
+
+{# Titre de la page #}
+{% block title %}Liste des publications{% endblock %}
+
+
+{# Contenu de la page #}
+{% block body %}
+
+    <div class="container-fluid">
+
+        {# Titre h1 #}
+        <div class="row">
+            <h1 class="col-12 text-center my-5">Publications du Blog de Batman</h1>
+        </div>
+
+        <div class="row">
+
+            <div class="col-12 col-md-8 offset-md-2">
+
+                {# Affichage du nombre total d'articles (attribut apporté par knp_paginator) #}
+                <div class="row">
+                    <p class="col-12 text-center">Nombre total d'articles : {{ articles.getTotalItemCount }}</p>
+                </div>
+
+                {# S'il y a des articles, on affiche le menu de pagination #}
+                {% if articles is not empty %}
+
+                    <div class="row">
+                        <div class="col-12 my-3 text-center">
+                            <div class="d-inline-block">
+                                {{ knp_pagination_render(articles) }}
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+                {# Boucle pour parcourir tous les articles à afficher #}
+                {% for article in articles %}
+
+                    <div class="row">
+
+                        <div class="col-12">
+
+                            <div class="card my-3 bg-black">
+
+                                <div class="card-header">
+
+                                    {# Titre de l'article, cliquable vers la page détaillée de l'article #}
+                                    <a class="text-decoration-none" href="{{ path('blog_publication_view', {'id': article.id, 'slug': article.slug}) }}"><i class="far fa-newspaper me-2"></i>{{ article.title }}</a>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <div class="mb-2">
+
+                                        {# Affichage du contenu de l'article, tronqué à 150 caractères, sans balises html, suivi de "..." et d'un lien "lire la suite" #}
+                                        {{ article.content|striptags|excerpt(100) }}
+                                        <a class="text-decoration-none" href="{{ path('blog_publication_view', {'id': article.id, 'slug': article.slug}) }}">Lire la suite</a>
+                                    </div>
+
+                                    {# Date et auteur de l'article #}
+                                    <footer class="blockquote-footer my-2">Publié le <strong>{{ article.publicationDate|date('d/m/Y à H\\hi') }}</strong> par <strong>{{ article.author.pseudonym }}</strong></footer>
+
+
+                                    {# Si l'utilisateur a le rôle admin, on affiche un menu avec un bouton permettant de supprimer/modifier l'article #}
+                                    {% if is_granted('ROLE_ADMIN') %}
+
+                                        <p class="mb-0 mt-3">
+
+                                            <a href="{{ path('blog_publication_edit', {'id': article.id}) }}" class="text-warning me-3 text-decoration-none">
+                                                <i class="fas fa-edit me-1"></i>Modifier
+                                            </a>
+
+                                            <a onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?')" class="text-decoration-none text-danger" href="{{ path('blog_publication_delete', {'id': article.id, csrf_token: csrf_token('blog_publication_delete_' ~ article.id ) }) }}">
+                                                <i class="fas fa-trash-alt me-1"></i>Supprimer
+                                            </a>
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                {% else %}
+
+                    <div class="row">
+                        <p class="col-12 text-center alert alert-warning">Aucune publication à afficher.</p>
+                    </div>
+
+                {% endfor %}
+
+                {# S'il y a des articles, on affiche le menu de pagination #}
+                {% if articles is not empty %}
+
+                    <div class="row">
+                        <div class="col-12 my-3 text-center">
+                            <div class="d-inline-block">
+                                {{ knp_pagination_render(articles) }}
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

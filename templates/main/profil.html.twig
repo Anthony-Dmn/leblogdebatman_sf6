@@ -1,0 +1,73 @@
+{# Utilisation du squelette de page base.html.twig #}
+{% extends 'base.html.twig' %}
+
+
+{# Titre de la page #}
+{% block title %}Gestion du profil{% endblock %}
+
+
+{# Contenu de la page #}
+{% block body %}
+
+    {# Grille Bootstrap #}
+    <div class="container-fluid">
+
+        {# Titre h1 #}
+        <div class="row">
+            <h1 class="col-12 text-center my-5">Gestion du profil</h1>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12 col-md-10 offset-md-1">
+                <div class="row">
+
+                    {# Bloc de gauche #}
+                    <div class="col-12 col-md-3 bg-black px-2 py-3 text-center">
+
+                        {# Image de profil #}
+                        <div class="row">
+                            <div class="col-10 offset-1 d-flex justify-content-center align-items-center">
+
+                                {# Affichage de la photo de profil de l'utilisateur ou celle par défaut s'il en a pas #}
+                                {% if app.user.photo is null %}
+                                    <img src="{{ asset('images/profil_default.jpg')|imagine_filter('profil') }}" alt="" class="img-fluid img-thumbnail">
+                                {% else %}
+                                    <img src="{{ asset('images/profils/' ~ app.user.photo )|imagine_filter('profil') }}" alt="" class="img-fluid img-thumbnail">
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                        {# Lien vers la page permettant de changer de photo de profil #}
+                        <div class="row">
+                            <div class="col-12 pt-3">
+                                <a href="{{ path('main_edit_photo') }}">Modifier la photo de profil</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {# Bloc de droite #}
+                    <div class="col-12 col-md-9 px-2 py-3 bg-dark d-flex justify-content-center align-items-center">
+
+                        {# Infos du compte #}
+                        <ul class="list-group col-12 col-md-8 p-0">
+                            <li class="list-group-item bg-black text-white">Adresse Email : <span class="text-info">{{ app.user.email }}</span></li>
+                            <li class="list-group-item bg-black text-white">Pseudonyme : <span class="text-info">{{ app.user.pseudonym }}</span></li>
+                            <li class="list-group-item bg-black text-white">Date d'inscription : <span class="text-info">{{ app.user.registrationDate|date('d/m/Y à H\\hi') }}</span></li>
+                            <li class="list-group-item bg-black text-white">
+                                Compte :
+                                <span class="text-info">{{ is_granted('ROLE_ADMIN') ? 'Administrateur' : 'Utilisateur' }}</span>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
