@@ -6,8 +6,8 @@ twig:
 
     globals:
 
-        # Récupération du nom du site dans le fichier services.yaml
-        site_name: '%app.site_name%'
+        # Nom du site
+        site_name: 'Le Blog de Batman'
 
         # Récupération de la clé publique Google Recaptcha depuis le fichier services.yaml
         google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
