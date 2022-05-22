@@ -49,7 +49,7 @@ class MainController extends AbstractController
      *
      * Accès réservé aux connectés (ROLE_USER)
      */
-    #[Route('/edit-photo/', name: 'main_edit_photo')]
+    #[Route('/changer-photo-de-profil/', name: 'main_edit_photo')]
     #[IsGranted('ROLE_USER')]
     public function editPhoto(Request $request, ManagerRegistry $doctrine): Response
     {

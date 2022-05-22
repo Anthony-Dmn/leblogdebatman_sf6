@@ -7,6 +7,9 @@ parameters:
     app.article.number_of_latest_articles_on_home: 3                        # Nombre d'article sur la page d'accueil
     google_recaptcha.private_key: '%env(GOOGLE_RECAPTCHA_PRIVATE_KEY)%'     # Récupération de la clé publique Google Recaptcha depuis le fichier .env
     app.user.photo.directory: '%kernel.project_dir%/public/images/profils/' # Dossier où sont stockées les images de profil uploadées
+    app.user.photo.allowed_mime_types:
+        - 'image/jpeg'
+        - 'image/png'
 
 services:
     # default configuration for services in *this* file
