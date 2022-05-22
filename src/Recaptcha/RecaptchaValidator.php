@@ -18,7 +18,7 @@ class RecaptchaValidator{
     }
 
     /**
-     * Méthode qui renverra "true" si le captcha dont le code est passé en paramétre est valide, sinon false
+     * Méthode qui renverra "true" si le captcha dont le code est passé en paramètre est valide, sinon false
      */
     public function verify(?string $recaptchaResponse, ?string $ip = null): bool
     {
