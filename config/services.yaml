@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    app.article.last_article_number: 3                                      # Nombre d'article sur la page d'accueil
+    app.article.number_of_latest_articles_on_home: 3                        # Nombre d'article sur la page d'accueil
     google_recaptcha.private_key: '%env(GOOGLE_RECAPTCHA_PRIVATE_KEY)%'     # Récupération de la clé publique Google Recaptcha depuis le fichier .env
     app.user.photo.directory: '%kernel.project_dir%/public/images/profils/' # Dossier où sont stockées les images de profil uploadées
 

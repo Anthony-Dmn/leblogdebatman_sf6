@@ -24,7 +24,7 @@ class MainController extends AbstractController
         // Récupération des 3 derniers articles publiés (le nombre d'article dépend du paramètre configuré dans le fichier services.yaml)
         $articleRepo = $doctrine->getRepository(Article::class);
 
-        $articles = $articleRepo->findBy([], ['publicationDate' => 'DESC'], $this->getParameter('app.article.last_article_number'));
+        $articles = $articleRepo->findBy([], ['publicationDate' => 'DESC'], $this->getParameter('app.article.number_of_latest_articles_on_home'));
 
         // Appel de la vue en lui envoyant les derniers articles publiés à afficher
         return $this->render('main/home.html.twig', [
