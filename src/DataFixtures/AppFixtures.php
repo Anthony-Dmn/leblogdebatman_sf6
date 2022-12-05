@@ -16,7 +16,7 @@ class AppFixtures extends Fixture
     /**
      * Stockage des services demandés à Symfony
      */
-    private $encoder;
+    private UserPasswordHasherInterface $encoder;
 
     /**
      * Récupération auprès de Symfony des services dont on a besoin dans nos fixtures (encodeur de mot de passe)
