@@ -9,7 +9,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
@@ -17,15 +16,13 @@ class AppFixtures extends Fixture
     /**
      * Stockage des services demandés à Symfony
      */
-    private $slugger;
     private $encoder;
 
     /**
-     * Récupération auprès de Symfony des services dont on a besoin dans nos fixtures (encodeur de mot de passe et service des slugs)
+     * Récupération auprès de Symfony des services dont on a besoin dans nos fixtures (encodeur de mot de passe)
      */
-    public function __construct(SluggerInterface $slugger, UserPasswordHasherInterface $encoder)
+    public function __construct(UserPasswordHasherInterface $encoder)
     {
-        $this->slugger = $slugger;
         $this->encoder = $encoder;
     }
 
@@ -89,7 +86,6 @@ class AppFixtures extends Fixture
                 ->setContent( $faker->paragraph(15) )
                 ->setPublicationDate( $faker->dateTimeBetween('-1 year', 'now') )
                 ->setAuthor( $admin )   // Batman sera l'auteur de tous les articles fakes
-                ->setSlug( $this->slugger->slug( $article->getTitle() )->lower() )  // Le slug de l'article est son titre "slugifié" et mis tout en minuscule
             ;
 
             // Persistance de l'article

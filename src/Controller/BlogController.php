@@ -10,13 +10,11 @@ use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * Préfixes de la route et du nom des pages de la partie blog du site
@@ -32,7 +30,7 @@ class BlogController extends AbstractController
      */
     #[Route('/nouvelle-publication/', name: 'new_publication')]
     #[IsGranted('ROLE_ADMIN')]
-    public function newPublication(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
+    public function newPublication(Request $request, ManagerRegistry $doctrine): Response
     {
 
         // Création d'un nouvel article vide
@@ -51,7 +49,6 @@ class BlogController extends AbstractController
             $newArticle
                 ->setAuthor($this->getUser())           // L'auteur est l'utilisateur connecté
                 ->setPublicationDate( new DateTime() )  // Date actuelle
-                ->setSlug( $slugger->slug( $newArticle->getTitle() )->lower() )     // Slug de l'article à partir de son titre
             ;
 
             // Sauvegarde de l'article dans la base de données via le manager général des entités
@@ -64,7 +61,6 @@ class BlogController extends AbstractController
 
             // Redirection de l'utilisateur vers la page détaillée de l'article tout nouvellement créé
             return $this->redirectToRoute('blog_publication_view', [
-                'id' => $newArticle->getId(),
                 'slug' => $newArticle->getSlug(),
             ]);
 
@@ -117,8 +113,7 @@ class BlogController extends AbstractController
      *
      * Le paramétrage "ParamConverter" permet de demander à Symfony de récupérer l'article donc l'id et le slug correspondent à {id} et {slug} dans l'url
      */
-    #[Route('/publication/{id}/{slug}/', name: 'publication_view')]
-    #[ParamConverter('article', options: ['mapping' => ['id' => 'id', 'slug' => 'slug']])]
+    #[Route('/publication/{slug}/', name: 'publication_view')]
     public function publicationView(Article $article, Request $request, ManagerRegistry $doctrine): Response
     {
 
@@ -265,7 +260,7 @@ class BlogController extends AbstractController
      */
     #[Route('/publication/modifier/{id}/', name: 'publication_edit', priority: 10)]
     #[IsGranted('ROLE_ADMIN')]
-    public function publicationEdit(Article $article, Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
+    public function publicationEdit(Article $article, Request $request, ManagerRegistry $doctrine): Response
     {
 
         // Création du formulaire de modification d'article (c'est le même que le formulaire permettant de créer un nouvel article, sauf qu'il sera déjà rempli avec les données de l'article existant "$article")
@@ -277,9 +272,6 @@ class BlogController extends AbstractController
         // Si le formulaire est envoyé et n'a pas d'erreur
         if($form->isSubmitted() && $form->isValid()){
 
-            // Actualisation du slug de l'article si jamais son titre a changé
-            $article->setSlug( $slugger->slug( $article->getTitle() )->lower() );
-
             // Sauvegarde des changements faits dans l'article via le manager général des entités
             $em = $doctrine->getManager();
             $em->flush();
@@ -289,7 +281,6 @@ class BlogController extends AbstractController
 
             // Redirection vers la page de l'article modifié
             return $this->redirectToRoute('blog_publication_view', [
-                'id' => $article->getId(),
                 'slug' => $article->getSlug(),
             ]);
 
@@ -329,7 +320,6 @@ class BlogController extends AbstractController
 
         // Redirection de l'utilisateur sur la page détaillée de l'article auquel est/était rattaché le commentaire
         return $this->redirectToRoute('blog_publication_view', [
-            'id' => $comment->getArticle()->getId(),
             'slug' => $comment->getArticle()->getSlug(),
         ]);
 

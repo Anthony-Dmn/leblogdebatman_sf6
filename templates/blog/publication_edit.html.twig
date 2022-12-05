@@ -18,7 +18,7 @@
         <div class="row">
             <div class="text-center col-12">
                 {# Lien pour revenir sur la fiche de l'article. On récupère l'id et le slug de l'article, nécéssaires pour construire le lien, directement via le formulaire #}
-                <a class="text-decoration-none" href="{{ path('blog_publication_view', {id: form.vars.value.id, slug: form.vars.value.slug }) }}">Revenir sur l'article</a>
+                <a class="text-decoration-none" href="{{ path('blog_publication_view', {slug: form.vars.value.slug }) }}">Revenir sur l'article</a>
             </div>
         </div>
 
