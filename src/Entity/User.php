@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -17,32 +18,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $email;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
 
-    #[ORM\Column(type: 'json')]
-    private $roles = [];
+    #[ORM\Column]
+    private array $roles = [];
 
-    #[ORM\Column(type: 'string')]
-    private $password;
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
 
-    #[ORM\Column(type: 'string', length: 40, unique: true)]
-    private $pseudonym;
+    #[ORM\Column(length: 40, unique: true)]
+    private ?string $pseudonym = null;
 
-    #[ORM\Column(type: 'datetime')]
-    private $registrationDate;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $registrationDate = null;
 
-    #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    private $photo;
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $photo = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class)]
-    private $articles;
+    private Collection $articles;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class, orphanRemoval: true)]
-    private $comments;
+    private Collection $comments;
 
     public function __construct()
     {
@@ -167,7 +171,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function addArticle(Article $article): self
     {
         if (!$this->articles->contains($article)) {
-            $this->articles[] = $article;
+            $this->articles->add($article);
             $article->setAuthor($this);
         }
 
@@ -197,7 +201,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
+            $this->comments->add($comment);
             $comment->setAuthor($this);
         }
 
