@@ -19,7 +19,6 @@ class EditPhotoFormType extends AbstractType
     public function __construct(ParameterBagInterface $params)
     {
         $this->allowedMimeTypes = $params->get('app.user.photo.allowed_mime_types');
-        dump($this->allowedMimeTypes);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
