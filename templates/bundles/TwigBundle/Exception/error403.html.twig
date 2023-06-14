@@ -1,0 +1,23 @@
+{# Utilisation du squelette de page "base.html.twig" #}
+{% extends "base.html.twig" %}
+
+{# Titre de la page #}
+{% block title %}Accès interdit : erreur 403{% endblock %}
+
+{# Contenu de la page #}
+{% block body %}
+
+    {# Grille Bootstrap #}
+    <div class="container-fluid">
+
+        {# Affichage d'une image #}
+        <div class="row">
+            <div class="col-12 text-center">
+                <img src="{{ asset('images/403.jpg') }}" alt="Erreur 403, accès interdit" class="img-fluid my-3">
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}

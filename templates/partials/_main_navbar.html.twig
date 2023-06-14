@@ -1,0 +1,121 @@
+{# Menu principal du site #}
+<nav class="navbar navbar-expand-lg navbar-dark bg-black main-navbar">
+    <div class="container-fluid">
+
+        {# Logo et titre du site #}
+        <a class="navbar-brand" href="{{ path('main_home') }}">
+            <img class="img-fluid main-navbar-logo" src="{{ asset('images/embleme-batman.png') }}" alt="">{{ site_name }}
+        </a>
+
+        {# Bouton burger #}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbarContent" aria-controls="mainNavbarContent" aria-expanded="false" aria-label="Afficher la navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        {# Conteneur principal des boutons #}
+        <div class="collapse navbar-collapse" id="mainNavbarContent">
+
+            {# Paquet des boutons de gauche #}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                {# Lien de la page d'accueil #}
+                <li class="nav-item">
+                    <a href="{{ path('main_home') }}" class="nav-link{{ route == 'main_home' ? ' active' }}">
+                        <i class="fa-solid fa-house mx-1"></i>Accueil
+                    </a>
+                </li>
+
+                {# Menu déroulant #}
+                <li class="nav-item dropdown">
+
+                    {# Texte du bouton du menu déroulant #}
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-newspaper me-1"></i>Blog
+                    </a>
+
+                    {# Liste des boutons du menu déroulant #}
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        {# Bouton de la page qui liste tous les articles #}
+                        <li><a class="dropdown-item" href="{{ path('blog_publication_list') }}">Publications</a></li>
+
+                        {# Affichage des boutons réservés aux administrateurs #}
+                        {% if is_granted('ROLE_ADMIN') %}
+
+                            {# Séparateur #}
+                            <li><hr class="dropdown-divider"></li>
+
+                            {# Bouton de la page pour créer un nouvel article #}
+                            <li><a class="dropdown-item" href="{{ path('blog_publication_new') }}">Nouvelle Publication</a></li>
+
+                        {% endif %}
+
+                    </ul>
+
+                </li>
+
+            </ul>
+
+            {# Paquet des boutons de droite #}
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                {# Affichage des liens réservés aux utilisateurs connectés (et ceux pour les personnes déconnectées dans le "else") #}
+                {% if app.user %}
+
+                    {# Menu déroulant #}
+                    <li class="nav-item dropdown">
+
+                        {# Texte du bouton du menu déroulant #}
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="profil-dropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {# Affichage du pseudonyme de l'utilisateur connecté #}
+                            <i class="fas fa-user mx-1"></i>{{ app.user.pseudonym }}
+                        </a>
+
+                        {# Liste des liens du menu déroulant #}
+                        <div class="dropdown-menu" aria-labelledby="profil-dropdown">
+
+                            {# Lien de la page mon profil #}
+                            <a class="dropdown-item" href="{{ path('main_profil') }}"><i class="fas fa-users-cog me-1"></i>Mon Profil</a>
+
+                            {# Séparateur #}
+                            <div class="dropdown-divider"></div>
+
+                            {# Lien de la page de déconnexion #}
+                            <a class="dropdown-item text-danger" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt me-1"></i>Déconnexion</a>
+
+                        </div>
+
+                    </li>
+
+                {% else %}
+
+                    {# Lien de la page d'inscription #}
+                    <li class="nav-item">
+                        <a href="{{ path('app_register') }}" class="nav-link{{ route == 'app_register' ? ' active' }}">
+                            <i class="fa-solid fa-user-plus mx-1"></i>Inscription
+                        </a>
+                    </li>
+
+                    {# Lien de la page de connexion #}
+                    <li class="nav-item">
+                        <a href="{{ path('app_login') }}" class="nav-link{{ route == 'app_login' ? ' active' }}">
+                            <i class="fa-solid fa-right-to-bracket mx-1"></i>Connexion
+                        </a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+            {# Formulaire de recherche dans les articles du site #}
+            {# Le formulaire envoi la recherche dans l'URL (méthode GET) #}
+            <form class="d-flex" method="GET" action="{{ path('blog_publication_search') }}">
+                <input name="s" class="form-control me-2" type="search" placeholder="Trouver un article" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+
+        </div>
+
+    </div>
+
+</nav>

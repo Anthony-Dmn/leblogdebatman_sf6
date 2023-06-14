@@ -1,0 +1,59 @@
+{# Utilisation du squelette de page "base.html.twig" #}
+{% extends "base.html.twig" %}
+
+{# Titre de la page #}
+{% block title %}Créer un compte{% endblock %}
+
+{# Contenu de la page #}
+{% block body %}
+
+    {# Grille Bootstrap #}
+    <div class="container-fluid">
+
+        {# Titre h1 de la page #}
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center my-5">Créer un compte</h1>
+            </div>
+        </div>
+
+        {# Formulaire d'inscription #}
+        <div class="row">
+            <div class="col-12 col-md-4 mx-auto">
+
+                {# On affiche ce formulaire de manière détaillée afin de pouvoir glisser notre Captcha Google au milieu à l'emplacement précis que nous souhaitons #}
+                {# Ouverture du formulaire #}
+                {{ form_start( registration_form ) }}
+
+                    {# Affichage des erreurs générales du formulaire #}
+                    {{ form_errors( registration_form ) }}
+
+                    {# Champ email #}
+                    {{ form_row( registration_form.email ) }}
+
+                    {# Champ pseudonyme #}
+                    {{ form_row( registration_form.pseudonym ) }}
+
+                    {# Champ mot de passe #}
+                    {{ form_row( registration_form.plainPassword ) }}
+
+                    <!-- Ce champ permet d'afficher le captcha de Google en utilisant la clé de site (la première des deux clés) -->
+                    <div class="g-recaptcha mb-2" data-sitekey="{{ google_recaptcha_site_key }}"></div>
+
+                    {# Bouton de validation #}
+                    {{ form_row( registration_form.save ) }}
+
+                {# Fermeture du formulaire #}
+                {{ form_end( registration_form ) }}
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+{% block js %}
+    <!-- Ce script est nécessaire pour faire fonctionner le Recaptcha Google -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}

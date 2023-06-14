@@ -1,0 +1,23 @@
+{# Utilisation du squelette de page "base.html.twig" #}
+{% extends "base.html.twig" %}
+
+{# Titre de la page #}
+{% block title %}Erreur {{ status_code }} - {{ status_text }}{% endblock %}
+
+{# Contenu de la page #}
+{% block body %}
+
+    {# Grille Bootstrap #}
+    <div class="container-fluid">
+
+        {# Titre h1 de la page #}
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center my-5">Erreur {{ status_code }} - {{ status_text }}</h1>
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}

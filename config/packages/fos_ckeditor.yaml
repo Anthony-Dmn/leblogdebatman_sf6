@@ -1,0 +1,14 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+
+# Configuration personnalisée de l'apparence de CKEditor
+fos_ck_editor:
+    configs:
+        general:
+            language: fr
+            toolbar: full
+            uiColor: "#FFFFFF"
+            height: 400px

@@ -1,0 +1,33 @@
+
+{# S'il y a des messages flashes de type "success" et/ou "error" #}
+{% if app.session.flashBag.has('success') or app.session.flashBag.has('error') %}
+
+    <div class="container">
+
+        <div class="row">
+
+            {# Affichage des messages flashes de type "success" #}
+            {% for message in app.flashes('success') %}
+
+                <div class="col-12 alert alert-success alert-dismissible fade show text-center fw-bold my-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+            {% endfor %}
+
+            {# Affichage des messages flashes de type "error" #}
+            {% for message in app.flashes('error') %}
+
+                <div class="col-12 alert alert-danger alert-dismissible fade show text-center fw-bold my-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+{% endif %}

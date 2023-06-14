@@ -1,0 +1,10 @@
+{# S'il y a des articles, on affiche le menu de navigation entre les pages (Fourni par le bundle knp_paginator) #}
+{% if articles is not empty %}
+    <div class="row">
+        <div class="col-12 my-3 text-center">
+            <div class="d-inline-block">
+                {{ knp_pagination_render( articles ) }}
+            </div>
+        </div>
+    </div>
+{% endif %}

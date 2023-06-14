@@ -1,0 +1,90 @@
+{# Utilisation du squelette de page "base.html.twig" #}
+{% extends "base.html.twig" %}
+
+{# Récupération de la recherche de l'utilisateur dans l'url ( $_GET['s'] ) #}
+{% set query = app.request.query.get('s') %}
+
+{# Titre de la page #}
+{% block title %}Résultat de la recherche "{{ query }}"{% endblock %}
+
+{# Contenu de la page #}
+{% block body %}
+
+    {# Grille Bootstrap #}
+    <div class="container-fluid">
+
+        {# Titre h1 de la page #}
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center my-5">Résultat de la recherche "{{ query }}"</h1>
+            </div>
+        </div>
+
+        {# Affichage du nombre total d'articles (attribut apporté par knp_paginator) #}
+        <div class="row">
+            <div class="col-12 text-center mb-3">Nombre total de résultats : {{ articles.getTotalItemCount }}</div>
+        </div>
+
+        {# Inclusion du menu de navigation entre les pages #}
+        {% include 'partials/_paginate_nav_menu.html.twig' %}
+
+        {# Affichage des articles #}
+        <div class="row">
+
+            <div class="col-12 col-md-8 mx-auto">
+
+                <div class="row">
+
+                    <div class="col-12">
+
+                        {# Boucle pour parcourir tous les articles à afficher #}
+                        {% for article in articles %}
+
+                            <div class="card my-3 bg-black">
+
+                                <div class="card-header">
+
+                                    {# Titre de l'article, cliquable vers la page détaillée de l'article #}
+                                    <a class="text-decoration-none" href="{{ path('blog_publication_view', {slug: article.slug}) }}">
+                                        <i class="far fa-newspaper me-2"></i>{{ article.title }}
+                                    </a>
+                                </div>
+
+                                <div class="card-body text-light">
+
+                                    <div class="mb-2">
+
+                                        {# Affichage du contenu de l'article, tronqué à 100 mots, sans balises html, suivi de "..." et d'un lien "lire la suite" #}
+                                        {{ article.content|striptags|excerpt(100) }}
+                                        <a class="text-decoration-none" href="{{ path('blog_publication_view', {slug: article.slug}) }}">Lire la suite</a>
+                                    </div>
+
+                                    {# Date et auteur de l'article #}
+                                    <footer class="blockquote-footer my-2">Publié le <strong>{{ article.publicationDate|date('d/m/Y à H\\hi') }}</strong> par <strong>{{ article.author.pseudonym }}</strong></footer>
+
+                                </div>
+
+                            </div>
+
+                        {% else %}
+
+                            {# Si aucune article n'est à afficher, message en conséquence #}
+                            <div class="row">
+                                <div class="col-12 text-center alert alert-warning">Aucun résultat pour cette recherche.</div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        {# Inclusion du menu de navigation entre les pages #}
+        {% include 'partials/_paginate_nav_menu.html.twig' %}
+
+    </div>
+
+{% endblock %}

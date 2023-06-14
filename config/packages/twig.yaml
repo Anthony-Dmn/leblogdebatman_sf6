@@ -1,0 +1,16 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+
+    # activation du thème Bootstrap 5 pour les formulaires du site
+    form_themes: ['bootstrap_5_layout.html.twig']
+    globals:
+
+        # Nom du site
+        site_name: 'Le Blog de Batman'
+
+        # Récupération de la clé publique Google Recaptcha depuis le fichier services.yaml
+        google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+
+when@test:
+    twig:
+        strict_variables: true

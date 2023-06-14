@@ -1,0 +1,60 @@
+{# Utilisation du squelette de page "base.html.twig" #}
+{% extends "base.html.twig" %}
+
+{# Titre de la page #}
+{% block title %}Connexion{% endblock %}
+
+{# Contenu de la page #}
+{% block body %}
+
+    {# Grille Bootstrap #}
+    <div class="container-fluid">
+
+        {# Titre h1 de la page #}
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center my-5">Connexion</h1>
+            </div>
+        </div>
+
+        {# Formulaire de connexion #}
+        <div class="row">
+
+            <div class="col-12 col-md-4 mx-auto">
+
+                <form action="{{ path('app_login') }}" method="POST">
+
+                    {# Si le formulaire de connexion possède une erreur, on l'affiche #}
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    {# Champ email #}
+                    <div class="mb-3">
+                        <label class="form-label" for="inputEmail">Adresse Email</label>
+                        <input value="{{ last_username }}" type="text" name="email" id="inputEmail" class="form-control" required autofocus>
+                    </div>
+
+                    {# Champ mot de passe #}
+                    <div class="mb-3">
+                        <label class="form-label" for="inputPassword">Mot de passe</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" required>
+                    </div>
+
+                    {# Champ invisible token anti attaque CSRF #}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    {# Bouton de validation #}
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-outline-primary w-100" value="Connexion">
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
